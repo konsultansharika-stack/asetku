@@ -20,16 +20,18 @@
     <main class="amp-content" id="amp-content">
 <div id="pageHead"></div>
       <ul class="nav nav-tabs mb-3" role="tablist">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tabOrg" role="tab">Profil Organisasi</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabPref" role="tab">Preferensi Aplikasi</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabAudit" role="tab">Audit Trail</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabData" role="tab">Koneksi Data</a></li>
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tabOrg" role="tab"><i class="bi bi-building me-1"></i>Identitas & Logo</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabTheme" role="tab"><i class="bi bi-palette me-1"></i>Tampilan Warna</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabData" role="tab"><i class="bi bi-cloud-arrow-up me-1"></i>Koneksi Supabase</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabPref" role="tab"><i class="bi bi-sliders me-1"></i>Preferensi</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tabAudit" role="tab"><i class="bi bi-clock-history me-1"></i>Audit Trail</a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade show active" id="tabOrg" role="tabpanel"><div id="orgPanel"></div></div>
+        <div class="tab-pane fade" id="tabTheme" role="tabpanel"><div id="themePanel"></div></div>
+        <div class="tab-pane fade" id="tabData" role="tabpanel"><div id="dataPanel"></div></div>
         <div class="tab-pane fade" id="tabPref" role="tabpanel"><div id="prefPanel"></div></div>
         <div class="tab-pane fade" id="tabAudit" role="tabpanel"><div id="auditTable"></div></div>
-        <div class="tab-pane fade" id="tabData" role="tabpanel"><div id="dataPanel"></div></div>
       </div>
     </main>
   </div>

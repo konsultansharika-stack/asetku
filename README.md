@@ -69,7 +69,9 @@ Akun demo (sandi: `demo123`):
    join roles r on r.role_key = 'super_admin'
    where p.email = 'admin@organisasi.id';
    ```
-5. **Konfigurasi frontend** — edit `assets/js/supabase-config.js`:
+5. **Konfigurasi frontend** — dua cara:
+   - **Tanpa edit kode (disarankan)**: masuk sebagai Super Admin → **Pengaturan → tab "Koneksi Supabase"** → isi Project URL & Anon Key → **Uji Koneksi** → **Simpan & Aktifkan**. Koneksi tersimpan di peramban.
+   - **Permanen (semua pengguna)**: edit `assets/js/supabase-config.js`:
    ```js
    SUPABASE_URL: 'https://<project-ref>.supabase.co',
    SUPABASE_ANON_KEY: '<anon-public-key>',
@@ -84,7 +86,13 @@ Akun demo (sandi: `demo123`):
    lalu pasang `pg_cron` sesuai contoh di `supabase/config.toml`.
 
 ### Storage
-Bucket privat tersedia: `asset-photos`, `asset-documents`, `procurement-documents`, `maintenance-photos`, `stock-opname-photos`, `disposal-documents`, `qr-labels`. Akses file memakai **signed URL** berbatas waktu.
+Bucket privat: `asset-photos`, `asset-documents`, `procurement-documents`, `maintenance-photos`, `stock-opname-photos`, `disposal-documents`, `qr-labels`. Akses file memakai **signed URL** berbatas waktu.
+Bucket publik: `branding` — logo organisasi (diunggah dari Pengaturan → Identitas & Logo) dapat diakses tanpa autentikasi agar tampil di halaman masuk.
+
+### Identitas, Logo & Tema (Pengaturan)
+- **Identitas & Logo** — nama, kode, alamat, telepon, email, website, NPWP, pimpinan, catatan kaki laporan, dan **logo** (PNG/JPG/SVG, otomatis di-resize 256px). Logo & nama langsung tampil di sidebar dan halaman masuk; pada mode Supabase logo disimpan ke bucket `branding`.
+- **Tampilan Warna** — 6 palet siap pakai (Navy, Hijau Pendidikan, Biru Samudra, Ungu Elegan, Merah Marun, Oranye Senja) + warna kustom (sidebar & aksen) dengan pratinjau langsung. Disimpan per peramban.
+- **Koneksi Supabase** — uji koneksi dengan pengukuran latensi; simpan/aktifkan atau putuskan koneksi tanpa mengedit kode. Hanya Super Admin.
 
 ---
 

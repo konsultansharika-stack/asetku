@@ -39,15 +39,28 @@ var AMP = (function () {
   }
 
   /* --------------------- SIDEBAR --------------------- */
+  function getBranding() {
+    try { return JSON.parse(localStorage.getItem('AMP_BRANDING') || 'null') || {}; }
+    catch (e) { return {}; }
+  }
+  function saveBranding(b) {
+    b.updatedAt = new Date().toISOString();
+    localStorage.setItem('AMP_BRANDING', JSON.stringify(b));
+  }
+
   function renderSidebar() {
     var el = document.getElementById('amp-sidebar');
     if (!el) return;
     var cur = pageKey();
+    var br = getBranding();
+    var appName = (br.appName || APP_CONFIG.APP_NAME || 'ASSET MANAGEMENT PRO').toUpperCase();
+    var tagline = br.tagline || APP_CONFIG.APP_TAGLINE || '';
+    var logoHtml = br.logo ? '<img src="' + br.logo + '" alt="Logo">' : '<i class="bi bi-boxes"></i>';
     var html = '' +
-      '<div class="amp-brand d-flex align-items-center gap-2 px-3 py-3">' +
-      '<span class="amp-brand-logo"><i class="bi bi-boxes"></i></span>' +
-      '<div class="amp-brand-text"><div class="fw-bold lh-1">ASSET MANAGEMENT</div>' +
-      '<div class="amp-brand-sub">PRO · Smart Asset</div></div></div>' +
+      '<div class="amp-brand d-flex align-items-center gap-2 px-3 py-3" title="' + UI.esc(br.orgName || appName) + '">' +
+      '<span class="amp-brand-logo">' + logoHtml + '</span>' +
+      '<div class="amp-brand-text"><div class="fw-bold lh-1">' + UI.esc(appName) + '</div>' +
+      '<div class="amp-brand-sub">' + UI.esc(String(tagline).slice(0, 34)) + '</div></div></div>' +
       '<nav class="amp-nav flex-grow-1 px-2">';
     MENU.forEach(function (item) {
       if (item.section) {
@@ -124,7 +137,50 @@ var AMP = (function () {
     return name.split(' ').slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
   }
 
-  /* --------------------- TEMA --------------------- */
+  /* --------------------- TEMA & BRANDING --------------------- */
+  var BRAND_VARS = ['--amp-navy-900', '--amp-navy-800', '--amp-navy-700', '--amp-navy-600', '--amp-navy-500', '--amp-accent'];
+
+  /** Terapkan warna kustom + logo dari cache branding (localStorage). */
+  function applyBrand() {
+    var br = getBranding();
+    var root = document.documentElement;
+    if (br.vars) {
+      BRAND_VARS.forEach(function (v) {
+        if (br.vars[v]) root.style.setProperty(v, br.vars[v]);
+      });
+    } else {
+      BRAND_VARS.forEach(function (v) { root.style.removeProperty(v); });
+    }
+    // Logo & nama pada login page (elemen opsional)
+    var loginLogo = document.getElementById('ampLoginLogo');
+    if (loginLogo && br.logo) loginLogo.innerHTML = '<img src="' + br.logo + '" alt="Logo">';
+    var loginTitle = document.getElementById('ampLoginAppName');
+    if (loginTitle && br.appName) loginTitle.textContent = br.appName;
+    var loginTag = document.getElementById('ampLoginTagline');
+    if (loginTag && br.tagline) loginTag.textContent = br.tagline;
+  }
+
+  /**
+   * Sinkronkan branding dari tabel organizations (multi-device).
+   * Dipanggil setelah DB.ready di halaman dengan sidebar.
+   */
+  function syncBrandingFromDB() {
+    return DB.list('organizations', { limit: 1 }).then(function (r) {
+      var o = (r.data || [])[0];
+      if (!o) return;
+      var br = getBranding();
+      var changed = false;
+      var name = o.name || '';
+      if (name && br.appName !== name) { br.appName = name; br.orgName = name; changed = true; }
+      if (o.logo_url && br.logo !== o.logo_url) { br.logo = o.logo_url; changed = true; }
+      if (changed) {
+        saveBranding(br);
+        applyBrand();
+        renderSidebar();
+      }
+    }).catch(function () { /* abaikan */ });
+  }
+
   function applyTheme() {
     var t = localStorage.getItem('AMP_THEME') || 'light';
     document.documentElement.setAttribute('data-theme', t);
@@ -229,13 +285,17 @@ var AMP = (function () {
         '<p class="text-muted">Peran <strong>' + Auth.roles().map(function (r) { return Auth.roleLabel(r); }).join(', ') +
         '</strong> tidak memiliki akses ke halaman ini.</p>' +
         '<a class="btn btn-primary" href="index.html"><i class="bi bi-house me-1"></i>Kembali ke Dashboard</a></div>';
+      applyBrand();
       renderSidebar(); renderTopbar(); applyTheme();
+      DB.ready().then(syncBrandingFromDB);
       return;
     }
+    applyBrand();
     applyTheme();
     renderSidebar();
     renderTopbar();
     DB.ready().then(function () {
+      syncBrandingFromDB();
       if (typeof window.PAGE_INIT === 'function') {
         try { window.PAGE_INIT(); } catch (err) {
           console.error('Page init error', err);
@@ -248,6 +308,7 @@ var AMP = (function () {
   var APP_CONFIG = window.AMP_CONFIG;
 
   document.addEventListener('DOMContentLoaded', function () {
+    applyBrand(); // berlaku juga di halaman login (tanpa sidebar)
     if (document.getElementById('amp-content')) {
       boot();
     } else if (typeof window.PAGE_INIT === 'function') {
@@ -256,7 +317,10 @@ var AMP = (function () {
     }
   });
 
-  return { MENU: MENU, pageKey: pageKey, refreshNotifBadge: refreshNotifBadge, applyTheme: applyTheme, notify: function () { refreshNotifBadge(); } };
+  return { MENU: MENU, pageKey: pageKey, refreshNotifBadge: refreshNotifBadge, applyTheme: applyTheme,
+    applyBrand: applyBrand, getBranding: getBranding, saveBranding: saveBranding, syncBranding: syncBrandingFromDB,
+    renderSidebar: renderSidebar,
+    notify: function () { refreshNotifBadge(); } };
 })();
 window.AMP = AMP;
 

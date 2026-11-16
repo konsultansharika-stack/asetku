@@ -62,14 +62,15 @@ body {
 /* ---------------- BRAND ---------------- */
 .amp-brand { border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: .5rem; }
 .amp-brand-logo {
-  width: 38px; height: 38px; border-radius: 10px; display: inline-flex;
-  align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: 10px; display: inline-flex; flex-shrink: 0;
+  align-items: center; justify-content: center; overflow: hidden;
   background: linear-gradient(135deg, var(--amp-accent), var(--amp-navy-500));
   color: #fff; font-size: 1.15rem;
 }
-.amp-brand-text { color: #fff; line-height: 1.1; }
-.amp-brand-text > div:first-child { letter-spacing: .06em; font-size: .8rem; }
-.amp-brand-sub { font-size: .68rem; color: #8fa3c0; letter-spacing: .12em; }
+.amp-brand-logo img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.amp-brand-text { color: #fff; line-height: 1.1; min-width: 0; }
+.amp-brand-text > div:first-child { letter-spacing: .06em; font-size: .78rem; word-break: break-word; }
+.amp-brand-sub { font-size: .68rem; color: #8fa3c0; letter-spacing: .08em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* ---------------- NAV ---------------- */
 .amp-nav-section {
@@ -209,9 +210,28 @@ body {
 }
 .amp-login-head { background: rgba(255,255,255,.04); }
 .amp-login-logo {
-  width: 54px; height: 54px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center;
+  width: 54px; height: 54px; border-radius: 14px; display: inline-flex; overflow: hidden;
+  align-items: center; justify-content: center;
   background: linear-gradient(135deg, var(--amp-accent), var(--amp-navy-500)); color: #fff; font-size: 1.5rem;
 }
+.amp-login-logo img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+
+/* ---------------- PENGATURAN: SWATCH WARNA ---------------- */
+.amp-palette-card {
+  border: 2px solid var(--amp-border); border-radius: 12px; padding: .75rem;
+  cursor: pointer; transition: border-color .15s, transform .15s; background: var(--amp-surface);
+}
+.amp-palette-card:hover { transform: translateY(-2px); }
+.amp-palette-card.selected { border-color: var(--amp-accent); box-shadow: 0 0 0 .2rem rgba(47,111,208,.12); }
+.amp-palette-preview { border-radius: 8px; height: 46px; display: flex; align-items: center; gap: 6px; padding: 0 8px; }
+.amp-palette-dot { width: 14px; height: 14px; border-radius: 50%; }
+.amp-color-input { width: 44px; height: 34px; padding: 2px; border: 1px solid var(--amp-border); border-radius: 8px; background: var(--amp-surface); cursor: pointer; }
+.amp-logo-preview {
+  width: 120px; height: 120px; border: 2px dashed var(--amp-border); border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center; background: var(--amp-bg);
+  color: var(--amp-text-muted); overflow: hidden;
+}
+.amp-logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .amp-login-side {
   color: #3b4a63; font-size: .82rem; border-top: 1px solid var(--amp-border);
   background: var(--amp-bg);

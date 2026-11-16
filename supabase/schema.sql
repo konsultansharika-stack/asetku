@@ -36,6 +36,12 @@ create table if not exists organizations (
   updated_by uuid
 );
 
+-- Kolom identitas tambahan (aman dijalankan ulang pada database lama)
+alter table organizations add column if not exists website text;
+alter table organizations add column if not exists npwp text;
+alter table organizations add column if not exists leader_name text;
+alter table organizations add column if not exists footer_note text;
+
 create table if not exists units (
   id uuid primary key default gen_random_uuid(),
   organization_id uuid not null references organizations(id) on delete cascade,

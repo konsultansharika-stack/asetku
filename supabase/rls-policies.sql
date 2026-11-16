@@ -310,11 +310,17 @@ values
   ('maintenance-photos', 'maintenance-photos', false),
   ('stock-opname-photos', 'stock-opname-photos', false),
   ('disposal-documents', 'disposal-documents', false),
-  ('qr-labels', 'qr-labels', false)
+  ('qr-labels', 'qr-labels', false),
+  ('branding', 'branding', true)  -- publik: logo organisasi tampil di halaman masuk tanpa autentikasi
 on conflict (id) do nothing;
 
 -- Pengguna terautentikasi anggota organisasi dapat mengakses file
 -- (path file dianjurkan memakai prefix organization_id/)
+-- Bucket "branding" publik: baca tanpa autentikasi; tulis hanya Super Admin/Pengelola.
+create policy "storage branding read" on storage.objects for select
+  using (bucket_id = 'branding');
+create policy "storage branding write" on storage.objects for insert to authenticated
+  with check (bucket_id = 'branding' and has_role(array['super_admin','pengelola']));
 create policy "storage auth read" on storage.objects for select to authenticated
   using (bucket_id in ('asset-photos','asset-documents','procurement-documents','maintenance-photos','stock-opname-photos','disposal-documents','qr-labels'));
 create policy "storage auth insert" on storage.objects for insert to authenticated
@@ -322,7 +328,7 @@ create policy "storage auth insert" on storage.objects for insert to authenticat
 create policy "storage auth update" on storage.objects for update to authenticated
   using (bucket_id in ('asset-photos','asset-documents','procurement-documents','maintenance-photos','stock-opname-photos','disposal-documents','qr-labels'));
 create policy "storage auth delete" on storage.objects for delete to authenticated
-  using (bucket_id in ('asset-photos','asset-documents','procurement-documents','maintenance-photos','stock-opname-photos','disposal-documents','qr-labels') and has_role(array['super_admin','pengelola']));
+  using (bucket_id in ('asset-photos','asset-documents','procurement-documents','maintenance-photos','stock-opname-photos','disposal-documents','qr-labels','branding') and has_role(array['super_admin','pengelola']));
 
 -- Catatan akses file privat:
 -- Gunakan signed URL berbatas waktu: await supabase.storage.from('asset-documents').createSignedUrl(path, 300)
