@@ -1,0 +1,26 @@
+# =====================================================================
+# ASSET MANAGEMENT PRO — supabase/config.toml
+# Konfigurasi Supabase CLI untuk project ini.
+# Jalankan: supabase start (lokal) atau supabase link --project-ref <ref>
+# =====================================================================
+
+project_id = "asset-management-pro"
+
+[functions.calculate-depreciation]
+verify_jwt = false   # dipanggil oleh pg_cron / scheduler
+
+[functions.send-reminders]
+verify_jwt = false   # dipanggil oleh pg_cron / scheduler
+
+# Contoh jadwal cron di SQL Editor (ekstensi pg_cron):
+# select cron.schedule('amp-reminders-daily', '0 0 7 * *',
+#   $$select net.http_post(
+#       url: 'https://<project-ref>.supabase.co/functions/v1/send-reminders',
+#       headers: '{"Content-Type":"application/json"}'::jsonb,
+#       body: '{}'::jsonb)$$);
+#
+# select cron.schedule('amp-depreciation-monthly', '0 0 1 * *',
+#   $$select net.http_post(
+#       url: 'https://<project-ref>.supabase.co/functions/v1/calculate-depreciation',
+#       headers: '{"Content-Type":"application/json"}'::jsonb,
+#       body: '{}'::jsonb)$$);

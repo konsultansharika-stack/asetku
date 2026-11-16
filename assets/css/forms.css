@@ -1,0 +1,34 @@
+/* =====================================================================
+ * ASSET MANAGEMENT PRO — forms.css
+ * ===================================================================== */
+
+.amp-form-section-title {
+  font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--amp-text-muted); font-weight: 700; margin: .9rem 0 .3rem;
+  padding-bottom: .3rem; border-bottom: 1px dashed var(--amp-border);
+}
+.amp-field-help { font-size: .72rem; color: var(--amp-text-muted); }
+textarea.form-control { min-height: 60px; }
+.was-validated .form-control:invalid, .was-validated .form-select:invalid { border-color: var(--amp-red); }
+.invalid-feedback { font-size: .74rem; }
+
+/* Item repeater (multi-item forms: pengadaan, peminjaman, penerimaan) */
+.amp-repeater { border: 1px solid var(--amp-border); border-radius: 10px; padding: .75rem; margin-bottom: .5rem; background: var(--amp-bg); }
+.amp-repeater-row { border: 1px dashed var(--amp-border); border-radius: 8px; padding: .6rem; margin-bottom: .5rem; position: relative; background: var(--amp-surface); }
+.amp-repeater-remove { position: absolute; top: -8px; right: -8px; z-index: 5; }
+
+/* Sticky footer in modal */
+.modal-body { font-size: .9rem; }
+.modal-footer .btn { min-width: 90px; }
+
+/* Search + filter toolbar */
+.amp-toolbar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: .75rem; }
+.amp-toolbar .form-select, .amp-toolbar .form-control { min-width: 130px; width: auto; font-size: .82rem; padding: .3rem .6rem; }
+
+/* Detail grid */
+.amp-detail-grid { row-gap: .35rem; }
+.amp-detail-label { font-size: .74rem; color: var(--amp-text-muted); text-transform: uppercase; letter-spacing: .05em; }
+.amp-detail-value { font-size: .9rem; font-weight: 600; word-break: break-word; }
+
+/* Photo upload preview */
+.amp-photo-preview { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid var(--amp-border); }

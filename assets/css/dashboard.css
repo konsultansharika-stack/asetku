@@ -1,0 +1,60 @@
+/* =====================================================================
+ * ASSET MANAGEMENT PRO — dashboard.css & assets.css (gabungan modul)
+ * ===================================================================== */
+
+/* --- Dashboard --- */
+.amp-hero {
+  background: linear-gradient(120deg, var(--amp-navy-900) 0%, var(--amp-navy-700) 60%, var(--amp-navy-500) 100%);
+  border-radius: 16px; color: #fff; padding: 1.25rem 1.5rem;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center;
+}
+.amp-hero h5 { margin: 0; font-weight: 700; }
+.amp-hero .amp-hero-sub { color: #b9c8e2; font-size: .8rem; }
+.amp-hero-chip {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  color: #fff; border-radius: 999px; padding: .25rem .8rem; font-size: .78rem;
+}
+.amp-chart-box { position: relative; height: 250px; }
+.amp-chart-box-sm { position: relative; height: 210px; }
+.amp-widget-list { max-height: 260px; overflow-y: auto; }
+.amp-widget-item {
+  display: flex; align-items: center; gap: .6rem; padding: .5rem .25rem;
+  border-bottom: 1px dashed var(--amp-border); font-size: .82rem;
+}
+.amp-widget-item:last-child { border-bottom: none; }
+.amp-widget-item .amp-widget-code { color: var(--amp-text-muted); font-size: .74rem; }
+
+/* --- Assets grid/detail --- */
+.amp-asset-photo {
+  width: 100%; height: 170px; border-radius: 12px; background: var(--amp-bg);
+  display: flex; align-items: center; justify-content: center; color: var(--amp-text-muted);
+  font-size: 2.4rem; border: 1px solid var(--amp-border); overflow: hidden;
+}
+.amp-asset-photo img { width: 100%; height: 100%; object-fit: cover; }
+.amp-asset-title { font-weight: 700; }
+.amp-asset-code { font-family: 'Consolas', monospace; background: var(--amp-bg); padding: .15rem .5rem; border-radius: 6px; font-size: .82rem; }
+
+/* --- Filter chips --- */
+.amp-filter-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.amp-chip {
+  border: 1px solid var(--amp-border); background: var(--amp-surface); color: var(--amp-text);
+  border-radius: 999px; padding: .22rem .8rem; font-size: .78rem; cursor: pointer;
+}
+.amp-chip.active { background: var(--amp-navy-700); border-color: var(--amp-navy-700); color: #fff; }
+
+/* --- Tabs --- */
+.nav-tabs { border-color: var(--amp-border); }
+.nav-tabs .nav-link { color: var(--amp-text-muted); font-size: .86rem; }
+.nav-tabs .nav-link.active { color: var(--amp-navy-700); font-weight: 600; background: var(--amp-surface); border-color: var(--amp-border) var(--amp-border) transparent; }
+[data-theme="dark"] .nav-tabs .nav-link.active { color: #8fb6e8; }
+
+/* --- QR label print --- */
+.amp-label-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.amp-label {
+  border: 1px solid #333; border-radius: 8px; padding: 8px; page-break-inside: avoid;
+  display: flex; gap: 8px; align-items: center; background: #fff; color: #111;
+}
+.amp-label .amp-label-info { font-size: 10px; line-height: 1.25; }
+.amp-label .amp-label-info strong { font-size: 11px; display: block; margin-bottom: 2px; }
+.amp-label .amp-label-code { font-family: monospace; font-size: 10px; color: #333; }
+.amp-asset-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: .75rem; }
